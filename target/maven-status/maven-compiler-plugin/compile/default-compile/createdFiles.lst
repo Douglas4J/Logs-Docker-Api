@@ -1,0 +1,11 @@
+logs\dto\PessoaDTO$PessoaDTOBuilder.class
+logs\dto\PessoaDTO.class
+logs\LogsApplication.class
+logs\model\Pessoa.class
+logs\mapper\PessoaMapper.class
+logs\config\openapi\OpenApiConfig.class
+logs\controller\PessoaController.class
+logs\repository\PessoaRepository.class
+logs\exception\GlobalExceptionHandler.class
+logs\model\Pessoa$PessoaBuilder.class
+logs\service\PessoaService.class

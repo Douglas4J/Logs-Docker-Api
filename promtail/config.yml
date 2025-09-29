@@ -1,0 +1,33 @@
+server:
+  http_listen_port: 9080   # Porta para healthcheck do Promtail
+  grpc_listen_port: 0      # gRPC desativado
+
+positions:
+  filename: /tmp/positions.yaml  # Arquivo que guarda até onde já leu nos logs
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push  # Endpoint do Loki para enviar logs
+
+scrape_configs:
+  - job_name: docker
+    docker_sd_configs:
+      - host: unix:///var/run/docker.sock   # Usa Docker API para descobrir containers
+        refresh_interval: 5s
+
+    relabel_configs:
+      # Pega o nome do container como label
+      - source_labels: [__meta_docker_container_name]
+        target_label: container_name
+      # Remove a barra inicial do nome (/db_opentelemetry -> db_opentelemetry)
+      - source_labels: [container_name]
+        regex: "/(.*)"
+        target_label: container_name
+        replacement: "$1"
+      # Mantém apenas API e DB
+      - source_labels: [container_name]
+        regex: "opentelemetry-api|db_opentelemetry"
+        action: keep
+
+    pipeline_stages:
+      - static_labels:
+          job: "docker-logs"  # Label estático adicional para todos os logs coletados

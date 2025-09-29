@@ -1,0 +1,9 @@
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\config\openapi\OpenApiConfig.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\controller\PessoaController.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\dto\PessoaDTO.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\exception\GlobalExceptionHandler.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\LogsApplication.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\mapper\PessoaMapper.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\model\Pessoa.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\repository\PessoaRepository.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\service\PessoaService.java

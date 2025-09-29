@@ -10,11 +10,11 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>opentelemetry-docker-api</groupId>
-	<artifactId>opentelemetry-docker-api</artifactId>
+	<groupId>logs-docker-api</groupId>
+	<artifactId>logs-docker-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>opentelemetry-docker-api</name>
-	<description>Api para testar opentelemetry</description>
+	<name>logs-docker-api</name>
+	<description>Api para testar extração de logs do container</description>
 	<url/>
 
 	<properties>
@@ -124,6 +124,6 @@
 			</plugin>
 		</plugins>
 
-		<finalName>opentelemetry-docker-api</finalName>
+		<finalName>logs-docker-api</finalName>
 	</build>
 </project>
