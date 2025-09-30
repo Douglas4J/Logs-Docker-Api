@@ -4,7 +4,7 @@ WORKDIR /app
 
 ENV TZ=America/Sao_Paulo
 
-COPY target/logs-docker-api.jar logs-docker-api.jar
+COPY ../target/logs-docker-api.jar logs-docker-api.jar
 
 EXPOSE 9090
 

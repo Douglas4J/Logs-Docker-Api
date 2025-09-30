@@ -2,6 +2,7 @@ C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\config\openapi\OpenAp
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\controller\PessoaController.java
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\dto\PessoaDTO.java
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\exception\GlobalExceptionHandler.java
+C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\log\LoggingFilter.java
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\LogsApplication.java
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\mapper\PessoaMapper.java
 C:\Workspace\BySolution\logs-docker-api\src\main\java\logs\model\Pessoa.java

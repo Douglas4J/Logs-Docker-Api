@@ -1,0 +1,66 @@
+version: "3.8"  # Versão do Compose, define recursos e sintaxe disponível
+
+services:
+
+  postgres:
+    image: postgres:15-alpine   # Imagem oficial do PostgreSQL (leve, Alpine)
+    container_name: db_logs  # Nome do container
+    environment:
+      POSTGRES_DB: db_logs       # Banco de dados criado automaticamente
+      POSTGRES_USER: postgres             # Usuário padrão
+      POSTGRES_PASSWORD: admin            # Senha padrão
+    ports:
+      - "5433:5432"  # Mapeia a porta 5432 do container para 5433 no host
+    volumes:
+      - postgres-logs-data:/var/lib/postgresql/data  # Persistência de dados
+    command: [
+      "postgres",
+      "-c", "logging_collector=off",                 # Desativa coletor de logs interno (usa stderr)
+      "-c", "log_destination=stderr",               # Envia logs para stderr (Promtail captura)
+      "-c", "log_statement=mod",                    # Só loga INSERT, UPDATE, DELETE, TRUNCATE
+      "-c", "log_min_error_statement=error"        # Loga queries que causam erro
+    ]
+
+  logs_api:
+    build: ..                        # Constrói a imagem a partir do Dockerfile na pasta atual
+    container_name: logs-api
+    ports:
+      - "9090:9090"                 # Mapeia porta da API
+    depends_on:
+      - postgres                     # Garante que Postgres suba antes da API
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db_logs
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+    volumes:
+      - postgres-logs-data:/var/lib/postgresql/data  # Monta volume do Postgres (opcional)
+
+  loki:
+    image: grafana/loki:2.9.0       # Loki para armazenar logs
+    container_name: loki
+    ports:
+      - "3100:3100"                  # Porta para Promtail/Grafana enviar logs
+    command: -config.file=/etc/loki/local-config.yaml  # Configuração do Loki
+
+  promtail:
+    image: grafana/promtail:2.9.0   # Agente que coleta logs e envia para Loki
+    container_name: promtail
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro  # Acesso somente leitura aos logs dos containers
+      - /var/run/docker.sock:/var/run/docker.sock:ro             # Permite Promtail descobrir containers via Docker API
+      - ./promtail/config.yml:/etc/promtail/config.yml:ro        # Config customizada do Promtail
+    command: -config.file=/etc/promtail/config.yml  # Aponta para a configuração
+
+  grafana:
+    image: grafana/grafana-oss:latest  # Dashboard para visualizar logs
+    container_name: grafana
+    ports:
+      - "3000:3000"                     # Porta do dashboard
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - loki                             # Garante que Loki suba antes do Grafana
+
+volumes:
+  postgres-logs-data:           # Volume persistente para o banco

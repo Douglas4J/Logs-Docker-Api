@@ -1,0 +1,12 @@
+logs:
+  - type: docker
+    service: logs-api
+    source: java
+    container_names:
+      - logs-api
+
+  - type: docker
+    service: postgres
+    source: postgresql
+    container_names:
+      - db_logs
